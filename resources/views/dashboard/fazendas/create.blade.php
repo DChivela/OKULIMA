@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nome da Fazenda</label>
-                                    <input type="text" class="form-control" name="nome_fazenda" placeholder="Ex. Fazenda Quiala" required>
+                                    <input type="text" class="form-control" name="nome_fazenda" placeholder="Ex. Fazenda WAF" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Área (Hectares)</label>

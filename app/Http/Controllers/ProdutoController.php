@@ -50,4 +50,21 @@ class ProdutoController extends Controller
         $produto->delete();
         return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso.');
     }
+
+    public function searchProduto(Request $request)
+{
+    $query = $request->input('query');
+    
+    $produtos = Produto::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where(function ($q) use ($query) {
+                $q->where('cod_produto', 'LIKE', "%{$query}%")
+                  ->orWhere('nome_produto', 'LIKE', "%{$query}%")
+                  ->orWhere('preco_produto', 'LIKE', "%{$query}%");
+            });
+        })
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('dashboard.produtos.index', compact('produtos'));
+}
 }

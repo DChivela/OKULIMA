@@ -20,8 +20,12 @@
                                     <input type="text" class="form-control" id="numero_profissao" name="numero_profissao" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nome_profissao" class="form-label">Nome da profissão</label>
+                                    <label for="nome_profissao" class="form-label">Profissão</label>
                                     <input type="text" class="form-control" id="nome_profissao" name="nome_profissao" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nome_trabalhador" class="form-label">Nome do trabalhador</label>
+                                    <input type="text" class="form-control" id="nome_trabalhador" name="nome_trabalhador" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="custo_trabalho" class="form-label">Custo por Hora</label>

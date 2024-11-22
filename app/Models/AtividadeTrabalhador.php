@@ -15,6 +15,7 @@ class AtividadeTrabalhador extends Model
         'trabalhador_id',
         'fazenda_id',
         'campo_cultivo_id',
+        'tipo_atividade',
         'data',
         'hora_inicial',
         'hora_final',

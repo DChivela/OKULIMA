@@ -14633,7 +14633,7 @@ html.maximized-card {
 .card-body.p-0 .table tfoot > tr > td:first-of-type,
 .card-body.p-0 .table tbody > tr > th:first-of-type,
 .card-body.p-0 .table tbody > tr > td:first-of-type {
-  padding-left: 1.5rem;
+  padding-left: 1.2rem;
 }
 .card-body.p-0 .table thead > tr > th:last-of-type,
 .card-body.p-0 .table thead > tr > td:last-of-type,

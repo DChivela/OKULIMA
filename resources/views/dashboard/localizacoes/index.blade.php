@@ -8,6 +8,7 @@
                 @include('msg.system')
                 @include('msg.user')
                 <div class="col-md-12">
+               
                     <div class="card card-primary card-outline mb-4">
                         <div class="card-header">
                             <div class="card-title">Registo de Localizações</div>
@@ -91,6 +92,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="input-group mb-4 mt-2">
+                     <input type="text" id="searchQuery" class="form-control" placeholder="Buscar por localizações...">
+                 </div>
                             </section>
                             <section class="content">
                                 <div class="container-fluid">
@@ -112,8 +117,8 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach($paises as $pais)
-                                                                        <tr>
-                                                                            <td>{{ $pais->nome }}</td>
+                                                                        <tr class="pais-item">
+                                                                            <td class="pais-nome">{{ $pais->nome }}</td>
                                                                             <td>
                                                                                 <form action="{{ route('localizacoes.destroyPais', $pais->id) }}" method="post">
                                                                                     @csrf
@@ -145,9 +150,12 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach($provincias as $provincia)
-                                                                        <tr>
-                                                                            <td>{{ $provincia->nome }}</td>
-                                                                            <td>{{ $provincia->pais->nome }}</td>
+                                                                        <tr class="provincia-item">
+                                                                            <td class="provincia-nome">{{ $provincia->nome }}</td>
+                                                                            <td class="provincia-pais">{{ $provincia->pais->nome }}</td>
+                                                                        
+                                                                           
+                                                         
                                                                             <td>
                                                                                 <form action="{{ route('localizacoes.destroyProvincia', $provincia->id) }}" method="post">
                                                                                     @csrf
@@ -180,9 +188,9 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach($municipios as $municipio)
-                                                                        <tr>
-                                                                            <td>{{ $municipio->nome }}</td>
-                                                                            <td>{{ $municipio->provincia->nome }}</td>
+                                                                        <tr class="municipio-item">
+                                                                            <td class="nome-municipio">{{ $municipio->nome }}</td>
+                                                                            <td class="nome-provincia">{{ $municipio->provincia->nome }}</td>
                                                                             <td>
                                                                                 <form action="{{ route('localizacoes.destroyMunicipio', $municipio->id) }}" method="post">
                                                                                     @csrf
@@ -216,3 +224,59 @@
         </div>
     </div>
 @endsection
+<script type="text/javascript">
+    
+    document.addEventListener("DOMContentLoaded", function(){
+
+        const searchQuery = document.getElementById("searchQuery")
+
+        const paisRow = document.querySelectorAll(".pais-item")
+        const provinciaRow = document.querySelectorAll(".provincia-item")
+        const municipioRow = document.querySelectorAll(".municipio-item")
+
+        searchQuery.addEventListener("keyup", function(){
+
+            const query = searchQuery.value.toLowerCase();
+
+            paisRow.forEach(element => {
+                const nomePais = element.querySelector(".pais-nome").textContent.toLowerCase();
+
+                
+                if (nomePais.includes(query)) {
+                    element.style.display=""
+                } else {
+                  element.style.display="none"  
+                }
+            });
+
+            provinciaRow.forEach(element => {
+                const provinciaNome = element.querySelector(".provincia-nome").textContent.toLowerCase();
+                const provinciaPais = element.querySelector(".provincia-pais").textContent.toLowerCase();
+
+                if (provinciaNome.includes(query) || provinciaPais.includes(query) ) {
+                    element.style.display=""
+                } else {
+                    element.style.display="none" 
+                }
+
+                
+            });
+      
+            // Mover a declaração de 'found' para fora do loop
+            
+            municipioRow.forEach(element => {
+                const nomeMunicipio = element.querySelector(".nome-municipio").textContent.toLowerCase();
+                const nomeProvincia = element.querySelector(".nome-provincia").textContent.toLowerCase();
+
+                if (nomeMunicipio.includes(query) || nomeProvincia.includes(query)) {
+                    element.style.display = "";
+                
+                } else { 
+                    element.style.display = "none";
+                }
+            });
+
+          
+        })
+    })
+    </script>

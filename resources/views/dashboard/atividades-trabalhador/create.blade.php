@@ -23,7 +23,7 @@
                                                 <option value="">Selecione o Trabalhador</option>
                                                 @foreach($trabalhadores as $trabalhador)
                                                     <option value="{{ $trabalhador->id }}">
-                                                        {{ $trabalhador->numero_profissao }}
+                                                        {{ $trabalhador->nome_trabalhador }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -53,6 +53,12 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Tipo de Atividade</label>
+                                            <input type="text" class="form-control" name="tipo_atividade" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">

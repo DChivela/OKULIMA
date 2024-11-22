@@ -18,7 +18,7 @@ class FazendaController extends Controller
 
     public function create()
     {
-        $paises = Pais::all();
+        $paises = Pais::orderBy('nome', 'asc')->get();
         return view('dashboard.fazendas.create', compact('paises'));
     }
 
@@ -48,7 +48,7 @@ class FazendaController extends Controller
 
     public function edit(Fazenda $fazenda)
     {
-        $paises = Pais::all();
+        $paises = Pais::orderBy('nome', 'asc')->get();
         return view('dashboard.fazendas.edit', compact('fazenda', 'paises'));
     }
 
@@ -81,4 +81,34 @@ class FazendaController extends Controller
         $fazenda->delete();
         return redirect()->route('fazendas.index')->with('success', 'Fazenda deletada com sucesso!');
     }
+
+    public function searchFazendas(Request $request)
+    {
+        $query = $request->input('query');
+        
+        $fazendas = Fazenda::with(['pais', 'provincia', 'municipio'])
+            ->when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->where(function ($q) use ($query) {
+                    $q->where('numero_fazenda', 'LIKE', "%{$query}%")
+                      ->orWhere('nome_fazenda', 'LIKE', "%{$query}%")
+                      ->orWhere('area_fazenda', 'LIKE', "%{$query}%")
+                      ->orWhere('numero_matriz', 'LIKE', "%{$query}%")
+                      ->orWhereHas('pais', function ($q) use ($query) {
+                          $q->where('nome', 'LIKE', "%{$query}%");
+                      })
+                      ->orWhereHas('provincia', function ($q) use ($query) {
+                          $q->where('nome', 'LIKE', "%{$query}%");
+                      })
+                      ->orWhereHas('municipio', function ($q) use ($query) {
+                          $q->where('nome', 'LIKE', "%{$query}%");
+                      });
+                });
+            })
+            ->paginate(10)
+            ->withQueryString();
+            
+
+        return view('dashboard.fazendas.list', compact('fazendas'));
+    }
+
 }

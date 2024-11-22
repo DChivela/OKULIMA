@@ -15,6 +15,10 @@
                 <input type="text" class="form-control" id="nome_profissao" name="nome_profissao" value="{{ $trabalhador->nome_profissao }}" required>
             </div>
             <div class="mb-3">
+                <label for="nome_trabalhador" class="form-label">Nome do trabalhador</label>
+                <input type="text" class="form-control" id="nome_trabalhador" name="nome_trabalhador" value="{{ $trabalhador->nome_trabalhador }}" required>
+            </div>
+            <div class="mb-3">
                 <label for="custo_trabalho" class="form-label">Custo por Hora</label>
                 <input type="number" class="form-control" id="custo_trabalho" name="custo_trabalho" value="{{ $trabalhador->custo_trabalho }}" step="0.01" required>
             </div>

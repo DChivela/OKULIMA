@@ -18,9 +18,9 @@
                             <select class="form-control select2bs4" name="equipamentos_id" id="equipamentos_id" required>
                                 <option value="">Selecione o Equipamento</option>
                                 @foreach($equipamentos as $equipamento)
-                                    <option value="{{ $equipamento->id }}" {{ $atividade->equipamento_id == $equipamento->id ? 'selected' : '' }}>
-                                        {{ $equipamento->nome_equipamento }}
-                                    </option>
+                                <option value="{{ $equipamento->id }}" {{ $atividade->equipamentos_id == $equipamento->id ? 'selected' : '' }}>
+                                    {{ $equipamento->nome_equipamento }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -31,9 +31,9 @@
                             <select class="form-control select2bs4" name="fazendas_id" required>
                                 <option value="">Selecione a Fazenda</option>
                                 @foreach($fazendas as $fazenda)
-                                    <option value="{{ $fazenda->id }}" {{ $atividade->fazenda_id == $fazenda->id ? 'selected' : '' }}>
-                                        {{ $fazenda->nome_fazenda }}
-                                    </option>
+                                <option value="{{ $fazenda->id }}" {{ $atividade->fazendas_id == $fazenda->id ? 'selected' : '' }}>
+                                    {{ $fazenda->nome_fazenda }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -44,11 +44,17 @@
                             <select class="form-control select2bs4" name="campos_cultivo_id" required>
                                 <option value="">Selecione o Campo</option>
                                 @foreach($campos as $campo)
-                                    <option value="{{ $campo->id }}" {{ $atividade->campo_id == $campo->id ? 'selected' : '' }}>
-                                        {{ $campo->nome_campo }}
-                                    </option>
+                                <option value="{{ $campo->id }}" {{ $atividade->campos_cultivo_id == $campo->id ? 'selected' : '' }}>
+                                    {{ $campo->nome_campo }}
+                                </option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Tipo de Atividade</label>
+                            <input type="text" class="form-control" name="tipo_atividade" value="{{ $atividade->tipo_atividade }}" required>
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -102,7 +108,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const horaInicialInput = document.getElementById('hora_inicial');
         const horaFinalInput = document.getElementById('hora_final');
         const duracaoInput = document.getElementById('duracao');
@@ -135,22 +141,24 @@
         horaInicialInput.addEventListener('change', calcularDuracao);
         horaFinalInput.addEventListener('change', calcularDuracao);
 
-        calcularValorBtn.addEventListener('click', function () {
+        calcularValorBtn.addEventListener('click', function() {
             calcularDuracao();
             calcularValorTrabalho();
         });
 
-        $('#equipamentos_id').change(function () {
+        $('#equipamentos_id').change(function() {
             var selectedOption = $(this).val();
 
             $.ajax({
                 url: '{{ route("obter_custo_hora") }}',
                 type: 'GET',
-                data: { equipamento_id: selectedOption },
-                success: function (response) {
+                data: {
+                    equipamento_id: selectedOption
+                },
+                success: function(response) {
                     $('#custo_unitario').val(response);
                 },
-                error: function () {
+                error: function() {
                     alert('Erro ao obter o custo do equipamento.');
                 }
             });

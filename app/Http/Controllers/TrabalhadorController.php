@@ -17,6 +17,7 @@ class TrabalhadorController extends Controller
         $request->validate([
             'numero_profissao' => 'required|string|max:255',
             'nome_profissao' => 'required|string|max:255',
+            'nome_trabalhador' => 'required|string|max:255',
             'custo_trabalho' => 'required|numeric',
         ]);
 
@@ -42,6 +43,7 @@ class TrabalhadorController extends Controller
         $request->validate([
             'numero_profissao' => 'required|string|max:255',
             'nome_profissao' => 'required|string|max:255',
+            'nome_trabalhador' => 'required|string|max:255',
             'custo_trabalho' => 'required|numeric',
         ]);
 
@@ -57,5 +59,24 @@ class TrabalhadorController extends Controller
         $trabalhador->delete();
 
         return redirect()->route('ListTrabalhador')->with('success', 'Trabalhador deletado com sucesso!');
+    }
+
+
+public function searchTrabalhador(Request $request)
+{
+    $query = $request->input('query');
+    
+    $trabalhadores = Trabalhador::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where(function ($q) use ($query) {
+                $q->where('numero_profissao', 'LIKE', "%{$query}%")
+                  ->orWhere('nome_profissao', 'LIKE', "%{$query}%")
+                  ->orWhere('nome_trabalhador', 'LIKE', "%{$query}%")
+                  ->orWhere('custo_trabalho', 'LIKE', "%{$query}%");
+            });
+        })
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('dashboard.trabalhadores.list', compact('trabalhadores'));
     }
 }

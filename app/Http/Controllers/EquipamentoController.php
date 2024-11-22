@@ -75,4 +75,20 @@ class EquipamentoController extends Controller
             return response()->json(['error' => 'Equipamento não encontrado'], 404);
         }
     }
+
+    public function searchEquipamentos(Request $request)
+{
+    $query = $request->input('query');
+    
+    $equipamentos = Equipamento::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where(function ($q) use ($query) {
+                $q->where('numero_equipamento', 'LIKE', "%{$query}%")
+                  ->orWhere('nome_equipamento', 'LIKE', "%{$query}%");
+            });
+        })
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('dashboard.equipamentos.list', compact('equipamentos'));
+}
 }

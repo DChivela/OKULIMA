@@ -26,6 +26,7 @@ class AtividadeMaquinaFactory extends Factory
             'duracao' => $this->faker->numberBetween(1, 480), // duração em minutos
             'custo_unitario' => $this->faker->randomFloat(500, 1000, 2000),
             'valor_trabalho' => $this->faker->randomFloat(2000, 5000, 10009, 30000),
+            'tipo_atividade' => $this->faker->randomElement([ 'Plantio', 'Colheita']),
         ];
     }
 }

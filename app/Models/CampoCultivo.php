@@ -24,4 +24,8 @@ class CampoCultivo extends Model
     {
         return $this->belongsTo(Fazenda::class);
     }
+    public function campo()
+    {
+        return $this->belongsTo(CampoCultivo::class);
+    }
 }

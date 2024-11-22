@@ -11,9 +11,10 @@ class LocalizacaoController extends Controller
 {
     public function index()
     {
-        $paises = Pais::all();
-        $provincias = Provincia::all();
-        $municipios = Municipio::all();
+        // $paises = Pais::all();
+        $paises = Pais::orderBy('nome', 'asc')->get();
+        $provincias = Provincia::orderBy('nome', 'asc')->get();
+        $municipios = Municipio::orderBy('nome', 'asc')->get();
 
         return view('dashboard.localizacoes.index', compact('paises', 'provincias', 'municipios'));
     }

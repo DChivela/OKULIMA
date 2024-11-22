@@ -29,6 +29,7 @@ class AtividadeMaquinaController extends Controller
             'equipamentos_id' => 'required|exists:equipamentos,id',
             'fazendas_id' => 'required|exists:fazendas,id',
             'campos_cultivo_id' => 'required|exists:campos_cultivo,id',
+            'tipo_atividade' => 'required|string',
             'data_atividade' => 'required|date',
             'hora_inicial' => 'required',
             'hora_final' => 'required',
@@ -41,6 +42,7 @@ class AtividadeMaquinaController extends Controller
         $atividade->equipamentos_id = $request->equipamentos_id;
         $atividade->fazendas_id = $request->fazendas_id;
         $atividade->campos_cultivo_id = $request->campos_cultivo_id;
+        $atividade->tipo_atividade = $request->tipo_atividade;
         $atividade->data_atividade = $request->data_atividade;
         $atividade->hora_inicial = $request->hora_inicial;
         $atividade->hora_final = $request->hora_final;

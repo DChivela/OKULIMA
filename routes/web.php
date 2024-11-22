@@ -14,6 +14,10 @@ use App\Http\Controllers\AbastecimentoController;
 use App\Http\Controllers\AtividadeMaquinaController;
 use App\Http\Controllers\AtividadeColheitaController;
 use App\Http\Controllers\AtividadeTrabalhadorController;
+use App\Http\Controllers\TarefaController;
+use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\NotificationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +31,11 @@ use App\Http\Controllers\AtividadeTrabalhadorController;
 */
 
 //Rotas de acesso
-Route::get('/register', [AccessController::class, 'RegisterPage'])->name('register')->middleware('guest');
-Route::post('/register', [AccessController::class, 'RegisterProcess'])->middleware('guest');
+// Route::get('/register', [AccessController::class, 'RegisterPage'])->name('register')->middleware('guest');
+// Route::post('/register', [AccessController::class, 'RegisterProcess'])->middleware('guest');
+
+Route::get('/register', [AccessController::class, 'RegisterPage'])->name('register')->middleware('auth');
+Route::post('/register', [AccessController::class, 'RegisterProcess'])->middleware('auth');
 
 Route::get('/login', [AccessController::class, 'LoginPage'])->name('login')->middleware('guest');
 Route::post('/login', [AccessController::class, 'LoginProcess'])->middleware('guest');
@@ -78,13 +85,23 @@ Route::middleware(['auth'])->group(function () {
 
     // Rotas Equipamento
     Route::resource('fazendas', FazendaController::class);
+    Route::get('/fazendas', [FazendaController::class, 'searchFazendas'])->name('fazendas.index');
+    Route::get('/equipamento', [EquipamentoController::class, 'searchEquipamentos'])->name('equipamento.index');
 
+
+    //Rotas Trabalhador
+    Route::get('/trabalhador', [TrabalhadorController::class, 'searchTrabalhador'])->name('trabalhador.index');
+    
     // Rotas Campos de Cultivo
     Route::resource('campos-cultivo', CampoCultivoController::class);
+    //Route::resource('campos-cultivo', CampoCultivoController::class);
+    
+    Route::get('/campos-cultivo', [CampoCultivoController::class, 'searchCampoCultivo'])->name('campos-cultivo.index');
+
 
     // Rotas Produtos
     Route::resource('produtos', ProdutoController::class);
-
+    Route::get('/produtos', [ProdutoController::class, 'searchProduto'])->name('produtos.index');
     // Rotas Abastecimento
     Route::resource('abastecimentos', AbastecimentoController::class);
 
@@ -104,5 +121,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('atividades-trabalhador', AtividadeTrabalhadorController::class);
     Route::get('/obter_custo_trabalhador', [AtividadeTrabalhadorController::class, 'obterCustoTrabalhador'])->name('obterCustoTrabalhador');
 
+    //Rotas de agendamentos
+    
+Route::resource('tarefas', TarefaController::class);
+Route::resource('agendamentos', AgendamentoController::class);
+  
+//Rotas para notificar
+
+Route::get('/check-notifications', [NotificationController::class, 'getNotifications'])->name('notifications.get');
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+
+Route::get('/notifications', [NotificationController::class, 'index']);
+
+//Rota para criar uma rota que retorne os campos de cultivo associados a uma fazenda
+Route::get('/campos/{fazenda_id}', [CampoCultivoController::class, 'getCampos']);
 });
 

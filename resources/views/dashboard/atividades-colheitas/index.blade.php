@@ -103,6 +103,9 @@
                             </form>
                         </div>
                     </div>
+                    <div class="input-group mb-4 mt-2">
+    <input type="text" id="searchQuery" class="form-control" placeholder="Buscar por atividades...">
+</div>
                     <div class="card card-primary card-outline mb-4">
                         <div class="card-header">
                             <div class="card-title">Lista de Atividades de Colheita</div>
@@ -125,13 +128,13 @@
                                 </thead>
                                 <tbody>
                                     @foreach($atividades as $atividade)
-                                        <tr>
-                                            <td>{{ $atividade->produto->nome_produto }}</td>
-                                            <td>{{ $atividade->fazenda->nome_fazenda }}</td>
-                                            <td>{{ $atividade->campoCultivo->nome_campo }}</td>
-                                            <td>{{ $atividade->data }}</td>
-                                            <td>{{ $atividade->hora_inicial }}</td>
-                                            <td>{{ $atividade->hora_final }}</td>
+                                        <tr class="atividade-item">
+                                            <td class="nome-produto">{{ $atividade->produto->nome_produto }}</td>
+                                            <td class="nome-fazenda">{{ $atividade->fazenda->nome_fazenda }}</td>
+                                            <td class="nome-campo">{{ $atividade->campoCultivo->nome_campo }}</td>
+                                            <td class="data">{{ $atividade->data }}</td>
+                                            <td class="hora">{{ $atividade->hora_inicial }}</td>
+                                            <td >{{ $atividade->hora_final }}</td>
                                             <td>{{ $atividade->duracao }}</td>
                                             <td>{{ number_format($atividade->custo_unitario, 2, ',', '.') }} AOA</td>
                                             <td>{{ number_format($atividade->valor_colheita, 2, ',', '.') }} AOA</td>
@@ -209,5 +212,34 @@
                 }
             });
         });
+
+              // Pegar o campo de input de busca
+              const searchInput = document.getElementById('searchQuery');
+        // Pegar todas as linhas de fazendas
+        const atividadeRows = document.querySelectorAll('.atividade-item');
+
+        //Adicionar evento de digitacao ao campo de busca
+        searchInput.addEventListener("keyup", function(){
+            // Valor digitado pelo usuário sera aemazenado na variavel query
+            const query = searchInput.value.toLowerCase();
+            atividadeRows.forEach(function(row){
+                const nomeFazenda = row.querySelector('.nome-fazenda').textContent.toLowerCase();
+                const nomeCampo = row.querySelector('.nome-campo').textContent.toLowerCase();
+                const nomeProduto = row.querySelector('.nome-produto').textContent.toLowerCase();
+                const data = row.querySelector('.data').textContent.toLowerCase();
+                const hora = row.querySelector('.hora').textContent.toLowerCase();
+                
+            
+            if(nomeFazenda.includes(query) || nomeCampo.includes(query) || nomeProduto.includes(query) || data.includes(query) || hora.includes(query)) {
+                row.style.display = '';
+            } else{
+                 row.style.display = 'none';
+            }
+           
+       
+        
+        })
+
+        })
     });
 </script>

@@ -14,6 +14,7 @@ class Trabalhador extends Model
     protected $fillable = [
         'numero_profissao',
         'nome_profissao',
+        'nome_trabalhador',
         'custo_trabalho',
     ];
 }

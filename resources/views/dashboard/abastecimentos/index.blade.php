@@ -8,6 +8,7 @@
                 @include('msg.system')
                 @include('msg.user')
                 <div class="col-md-12">
+  
                     <div class="card card-primary card-outline mb-4">
                         <div class="card-header">
                             <div class="card-title">Registo de Abastecimentos</div>
@@ -61,7 +62,9 @@
                             </form>
                         </div>
                     </div>
-
+                    <div class="input-group mb-4 mt-2">
+                         <input type="text" id="searchQuery" class="form-control" placeholder="Buscar por postos...">
+                    </div>
                     <div class="card card-primary card-outline mb-4">
                         <div class="card-header">
                             <div class="card-title">Consulta de Abastecimentos</div>
@@ -80,11 +83,11 @@
                                 </thead>
                                 <tbody>
                                     @foreach($abastecimentos as $abastecimento)
-                                        <tr>
-                                            <td>{{ $abastecimento->equipamento->nome_equipamento }}</td>
-                                            <td>{{ $abastecimento->produto }}</td>
-                                            <td>{{ $abastecimento->quantidade }}</td>
-                                            <td>{{ number_format($abastecimento->preco_unitario, 2, ',', '.') }} AOA</td>
+                                        <tr class="posto-item">
+                                            <td class="nome">{{ $abastecimento->equipamento->nome_equipamento }}</td>
+                                            <td class="produto">{{ $abastecimento->produto }}</td>
+                                            <td class="quantidade">{{ $abastecimento->quantidade }}</td>
+                                            <td class="preco">{{ number_format($abastecimento->preco_unitario, 2, ',', '.') }} AOA</td>
                                             <td>{{ $abastecimento->data_abastecimento }}</td>
                                             <td>
                                                 <a href="{{ route('abastecimentos.edit', $abastecimento->id) }}" class="btn btn-warning btn-sm">Editar</a>
@@ -105,3 +108,33 @@
         </div>
     </div>
 @endsection
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(){
+
+        const searchquery = document.getElementById("searchQuery")
+
+        const postoRow = document.querySelectorAll(".posto-item")
+
+        searchQuery.addEventListener("keyup", function(){
+
+            const query = searchQuery.value.toLowerCase();
+
+            postoRow.forEach(element => {
+                const nome = element.querySelector(".nome").textContent.toLowerCase();
+                const produto = element.querySelector(".produto").textContent.toLowerCase();
+                const quantidade = element.querySelector(".quantidade").textContent.toLowerCase();
+                const preco = element.querySelector(".preco").textContent.toLowerCase();
+                if (nome.includes(query) || produto.includes(query) || quantidade.includes(query) || preco.includes(query)) {
+                    element.style.display=""
+                } else {
+                    element.style.display="none"
+                    
+                }
+            });
+        })
+
+
+    })
+
+</script>

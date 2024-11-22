@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="card">
-    @include('msg.system');
-    @include('msg.user');
+    @include('msg.system')
+    @include('msg.user')
     <div class="card-body login-card-body">
         <p class="login-box-msg">Preencha os campos abaixo</p>
         <form action="{{ route('register') }}" method="post">
@@ -55,6 +55,12 @@
                         <button type="submit" class="btn btn-primary">Registar</button>
                     </div>
                 </div>
+                <div class="col-4">
+                    <div class="col-2">
+                        <a href="/home" class="btn btn-primary">Home</a>
+                    </div>
+                </div>
+
             </div>
         </form>
     </div>
@@ -62,4 +68,3 @@
 
 
 @endsection
-

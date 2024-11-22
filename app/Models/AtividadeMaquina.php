@@ -14,9 +14,10 @@ class AtividadeMaquina extends Model
     protected $table = 'atividades_maquinas';
 
     protected $fillable = [
-        'equipamento_id',
-        'fazenda_id',
-        'campo_id',
+        'equipamentos_id',
+        'fazendas_id',
+        'campos_cultivo_id',
+        'tipo_atividade',
         'data_atividade',
         'hora_inicial',
         'hora_final',
@@ -39,4 +40,5 @@ class AtividadeMaquina extends Model
     {
         return $this->belongsTo(CampoCultivo::class);
     }
+    
 }
